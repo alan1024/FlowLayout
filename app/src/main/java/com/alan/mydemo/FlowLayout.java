@@ -17,6 +17,13 @@ public class FlowLayout extends ViewGroup {
 
     private TextView tv;
 
+    //存储所有的View，按行记录
+    private List<List<View>> mAllViews = new ArrayList<List<View>>();
+    //记录每一行的最大高度
+    private List<Integer> mLineHeight = new ArrayList<Integer>();
+
+
+
     public FlowLayout(Context context) {
         super(context);
 
@@ -61,10 +68,9 @@ public class FlowLayout extends ViewGroup {
             tv.setPadding(dip2px(context, pl), dip2px(context, pt), dip2px(context, pr), dip2px(context, pb));
             MarginLayoutParams params = new MarginLayoutParams(MarginLayoutParams.WRAP_CONTENT, MarginLayoutParams.WRAP_CONTENT);
             params.setMargins(ml, mt, mr, mb);
-
-
             tv.setLayoutParams(params);
-            tv.setBackgroundColor(Color.WHITE);
+            tv.setBackgroundColor(Color.parseColor("#CCCCCC"));
+
             final int finalI = i;
             //给每个view添加点击事件
             tv.setOnClickListener(new OnClickListener() {
@@ -84,10 +90,6 @@ public class FlowLayout extends ViewGroup {
     }
 
 
-    //存储所有的View，按行记录
-    private List<List<View>> mAllViews = new ArrayList<List<View>>();
-    //记录每一行的最大高度
-    private List<Integer> mLineHeight = new ArrayList<Integer>();
 
 
     @Override
@@ -140,72 +142,8 @@ public class FlowLayout extends ViewGroup {
 
             leftDimen = 0;
             topDimen = lineHeight;
-
-
         }
 
-
-//        mAllViews.clear();  //清空子控件列表
-//        mLineHeight.clear();  //清空高度记录列表
-//        int width = getWidth();//得到当前控件的宽度（在onmeasure方法中已经测量出来了）
-//        int childCount = getChildCount();
-//        // 存储每一行所有的childView
-//        List<View> lineViews = new ArrayList<View>();
-//        int lineWidth = 0;  //行宽
-//        int lineHeight = 0; //总行高
-//        for (int i = 0; i < childCount; i++) {
-//            View child = getChildAt(i);
-//            MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();//得到属性参数
-//            int childWidth = child.getMeasuredWidth();
-//            int childHeight = child.getMeasuredHeight();
-//            // 如果已经需要换行
-//
-//            if (childWidth + lp.leftMargin + lp.rightMargin + lineWidth > width)  //大于父布局的宽度
-//            {
-//                // 记录这一行所有的View以及最大高度
-//                mLineHeight.add(lineHeight);
-//                // 将当前行的childView保存，然后开启新的ArrayList保存下一行的childView
-//                mAllViews.add(lineViews);
-//                lineWidth = 0;// 重置行宽
-//                lineViews = new ArrayList<View>();
-//            }
-//            /**
-//             * 如果不需要换行，则累加
-//             */
-//            lineWidth += childWidth + lp.leftMargin + lp.rightMargin;
-//            lineHeight = Math.max(lineHeight, childHeight + lp.topMargin
-//                    + lp.bottomMargin);
-//            lineViews.add(child);
-//        }
-//        // 记录最后一行  (因为最后一行肯定大于父布局的宽度，所以添加最后一行是必要的)
-//        mLineHeight.add(lineHeight);
-//        mAllViews.add(lineViews);
-//
-//        int viewLeft = 0;
-//        int viewTop = 0;
-//        int lineNums = mAllViews.size();
-//        for (int i = 0; i < lineNums; i++) {
-//            // 每一行的所有的views
-//            lineViews = mAllViews.get(i);
-//            // 当前行的最大高度  每一行的高度都相同  所以使用（i+1）进行设置高度
-//            lineHeight = (i + 1) * mLineHeight.get(i);
-//            for (int j = 0; j < lineViews.size(); j++) {
-//                View lineChild = lineViews.get(j);
-//                if (lineChild.getVisibility() == View.GONE) {
-//                    continue;
-//                }
-//                MarginLayoutParams lp = (MarginLayoutParams) lineChild.getLayoutParams();
-//                //开始画标签了。左边和上边的距离是要根据累计的数确定的。
-//                int lc = viewLeft + lp.leftMargin;
-//                int tc = viewTop + lp.topMargin;
-//                int rc = lc + lineChild.getMeasuredWidth();
-//                int bc = tc + lineChild.getMeasuredHeight();
-//                lineChild.layout(lc, tc, rc, bc);
-//                viewLeft += lineChild.getMeasuredWidth() + lp.rightMargin + lp.leftMargin;
-//            }
-//            viewLeft = 0;//将left归零
-//            viewTop = lineHeight;
-//        }
     }
 
     @Override
